@@ -90,6 +90,12 @@ Remember to generate a Laravel master key:
 docker exec -it calendar-app php artisan key:generate
 ```
 
+And JWT secret too:
+
+```
+docker exec -it calendar-app php artisan jwt:secret
+```
+
 Now run all the migrations:
 
 ```

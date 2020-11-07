@@ -3,8 +3,12 @@
 <p align="center">
 <a href="https://laravel.com/docs/8.x"><img src="https://img.shields.io/badge/Laravel-8.4.0-red?logo=laravel" alt="Laravel Version"></a>
 <a href="https://getbootstrap.com/docs/4.5/getting-started/introduction/"><img src="https://img.shields.io/badge/Bootstrap-4.5-blueviolet?logo=bootstrap" alt="Bootstrap Version"></a>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img src="https://img.shields.io/badge/Docker Compose-3.8-blue?logo=docker" alt="Docker"></a>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img src="https://img.shields.io/badge/License-CC BY--NC--SA 4.0-green?logo=creative-commons" alt="License"></a>
+<img src="https://img.shields.io/badge/Docker%20Compose-3.8-blue?logo=docker" alt="Docker Compose">
+<br />
+<img src="https://img.shields.io/badge/GitGuardian-active-success" alt="GitGuardian">
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/joseantonnio/calendar-app?label=Last%20Commit">
+<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/joseantonnio/calendar-app?label=last%20version">
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-success?logo=creative-commons" alt="CC BY-NC-SA 4.0"></a>
 </p>
 
 ## About

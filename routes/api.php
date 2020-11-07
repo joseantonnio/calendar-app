@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
+    Route::any('login', [AuthController::class, 'index'])->name('login');
+    Route::patch('refresh', [AuthController::class, 'update'])->name('refresh');
+    Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 });
 
 Route::resources([

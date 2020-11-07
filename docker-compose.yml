@@ -1,0 +1,86 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+     config:
+      - subnet: 10.8.0.0/16
+
+volumes:
+  calendar-data:
+    driver: local
+
+services:
+  mysql:
+    image: mariadb:10.5-focal
+    container_name: calendar-database
+    volumes:
+      - calendar-data:/var/lib/mysql
+    ports:
+      - '3336:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=aeTJh78wgr
+      - MYSQL_DATABASE=calendar
+      - MYSQL_USER=calendaruser
+      - MYSQL_PASSWORD=wghr918E
+    networks:
+      app-network:
+        ipv4_address: 10.8.0.2
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: joseantonnio/calendar
+    container_name: calendar-app
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: calendar-app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      app-network:
+        ipv4_address: 10.8.0.3
+
+  server:
+    image: nginx:1.19
+    container_name: calendar-webserver
+    restart: always
+    tty: true
+    ports:
+      - "8090:80"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      app-network:
+        ipv4_address: 10.8.0.4
+
+  calendar-node:
+    image: node:15.1-stretch
+    container_name: calendar-node
+    user: node
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/home/node/app
+    networks:
+      app-network:
+        ipv4_address: 10.8.0.5
+
+  calendar-adminer:
+    image: adminer:latest
+    container_name: calendar-adminer
+    restart: always
+    ports:
+      - 8091:8080
+    environment:
+      - ADMINER_DEFAULT_SERVER=10.8.0.2
+    networks:
+      app-network:
+        ipv4_address: 10.8.0.6

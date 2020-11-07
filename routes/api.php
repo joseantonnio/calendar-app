@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
-    Route::any('login', [AuthController::class, 'index'])->name('login');
+    Route::post('login', [AuthController::class, 'index'])->name('login');
     Route::patch('refresh', [AuthController::class, 'update'])->name('refresh');
     Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 });

@@ -1,5 +1,5 @@
 @prepend('styles')
-    <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}" />
 @endprepend
 
 @prepend('scripts')

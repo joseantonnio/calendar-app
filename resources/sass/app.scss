@@ -1,8 +1,19 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import '~@mdi/font/scss/materialdesignicons';
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Datepicker
+@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+
+.datepicker.datepicker-dropdown {
+    padding: 5px 15px;
+}
+
+// Timepicker
+@import '~jquery-timepicker/jquery.timepicker'

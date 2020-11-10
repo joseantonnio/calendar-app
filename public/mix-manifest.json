@@ -1,6 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/js/welcome.js": "/js/welcome.js",
-    "/css/welcome.css": "/css/welcome.css"
+    "/css/calendar.css": "/css/calendar.css",
+    "/css/login.css": "/css/login.css",
+    "/js/calendar.js": "/js/calendar.js",
+    "/js/login.js": "/js/login.js",
+    "/js/register.js": "/js/register.js"
 }

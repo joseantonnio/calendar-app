@@ -7,7 +7,7 @@
 <br />
 <img src="https://img.shields.io/badge/GitGuardian-active-success" alt="GitGuardian">
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/joseantonnio/calendar-app?label=Last%20Commit">
-<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/joseantonnio/calendar-app?label=last%20version">
+<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/joseantonnio/calendar-app?label=Last%20Version">
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-success?logo=creative-commons" alt="CC BY-NC-SA 4.0"></a>
 </p>
 
@@ -128,4 +128,4 @@ Done! Now you can access the application at http://localhost:8090.
 
 ## License
 
-<p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a rel="cc:attributionURL" property="dct:title" href="https://github.com/joseantonnio/calendar-app">Calendar App</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.linkedin.com/in/joseantonnio/">José Antonio</a> is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" /></a></p>
+<p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a rel="cc:attributionURL" property="dct:title" href="https://github.com/joseantonnio/calendar-app">Calendar App</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.linkedin.com/in/joseantonnio/">José Antonio</a> is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>

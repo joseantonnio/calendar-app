@@ -1,5 +1,8 @@
 require('./bootstrap');
 
+import Cookies from 'universal-cookie';
+window.cookies = new Cookies();
+
 $(function () {
     if (localStorage.getItem('flash')) {
         var flash = JSON.parse(localStorage.getItem('flash'));

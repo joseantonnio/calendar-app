@@ -11,23 +11,10 @@ $(function () {
         } else if ($('#inputPassword').val() != $('#inputConfirm').val()) {
             toastr.error("The password confirmation does not match.", "Wrong password");
         } else {
-            axios.post('/api/users', {
-                name: $('#inputName').val(),
-                email: $('#inputEmail').val(),
-                password: $('#inputPassword').val(),
-                password_confirmation: $('#inputConfirm').val(),
-            })
-            .then(() => {
-                localStorage.setItem('flash', JSON.stringify({
-                    type: "success",
-                    title: "Success",
-                    message: "You have been successfully registered!",
-                }));
+            if (auth.doRegister($('#inputName').val(), $('#inputEmail').val(), $('#inputPassword').val(), $('#inputConfirm').val())) {
+                setFlash("You have been successfully registered!", "Success", "success");
                 window.location.assign("/login");
-            })
-            .catch(error => {
-                requestErrorHandler(error);
-            });
+            }
         }
     });
 });

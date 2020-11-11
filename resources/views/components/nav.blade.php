@@ -20,3 +20,7 @@
         </ul>
     </div>
 </nav>
+
+@push('scripts')
+    <script src="{{ asset('js/nav.js') }}"></script>
+@endpush

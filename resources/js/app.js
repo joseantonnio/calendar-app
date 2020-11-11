@@ -1,17 +1,17 @@
 require('./bootstrap');
 
-require('./auth')
-
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 require('jquery-timepicker/jquery.timepicker')
 
-window.requestErrorHandler = (error) => {
-    if (error.response != undefined) {
-        toastr.error(error.response.data[Object.keys(error.response.data)[0]][0], "Something went wrong");
-    } else {
-        toastr.error("Something went wrong...", "Ooops!");
-        console.error(error);
-    }
+import Auth from './classes/auth';
+window.auth = new Auth();
+
+window.setFlash = (message, title = null, type = "info") => {
+    localStorage.setItem('flash', JSON.stringify({
+        type: type,
+        title: title,
+        message: message,
+    }));
 }
 
 $(function () {

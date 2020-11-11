@@ -23,10 +23,10 @@ $(function () {
                     title: "Success",
                     message: "You have been successfully registered!",
                 }));
-                window.location.replace("/login");
+                window.location.assign("/login");
             })
             .catch(error => {
-                toastr.error(error.response.data[Object.keys(error.response.data)[0]][0], "Something went wrong");
+                requestErrorHandler(error);
             });
         }
     });

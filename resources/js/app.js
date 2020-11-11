@@ -3,6 +3,15 @@ require('./bootstrap');
 import Cookies from 'universal-cookie';
 window.cookies = new Cookies();
 
+window.requestErrorHandler = (error) => {
+    if (error.response != undefined) {
+        toastr.error(error.response.data[Object.keys(error.response.data)[0]][0], "Something went wrong");
+    } else {
+        toastr.error("Something went wrong...", "Ooops!");
+        console.error(error);
+    }
+}
+
 $(function () {
     if (localStorage.getItem('flash')) {
         var flash = JSON.parse(localStorage.getItem('flash'));

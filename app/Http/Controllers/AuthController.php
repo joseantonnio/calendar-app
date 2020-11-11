@@ -35,7 +35,7 @@ class AuthController extends Controller
         }
 
         if (! $token = auth('api')->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => ['Incorrect email or password!']], 401);
         }
 
         return $this->createNewToken($token);
@@ -60,7 +60,7 @@ class AuthController extends Controller
     {
         auth('api')->logout();
 
-        return response()->json(['message' => 'User successfully signed out']);
+        return response()->json(['message' => ['User successfully signed out']]);
     }
 
     /**

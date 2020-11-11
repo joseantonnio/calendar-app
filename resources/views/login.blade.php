@@ -14,7 +14,7 @@
 
 
 @section('content')
-    <form class="form-signin text-center">
+    <form class="form-signin text-center" method="POST" id="formLogin">
         <h1 class="h1 mb-3"><i class="mdi mdi-calendar"></i> Calendar App</h1>
         <h2 class="h4 mb-3 font-weight-normal">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>

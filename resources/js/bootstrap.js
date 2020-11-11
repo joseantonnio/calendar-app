@@ -48,3 +48,10 @@ window.axios.defaults.headers.common['Accept'] = 'application/json';
  */
 
 window.toastr = require("toastr");
+
+/**
+ * Universal cookies for JavaScript
+ */
+
+import Cookies from 'universal-cookie';
+window.cookies = new Cookies();

@@ -1,7 +1,9 @@
 require('./bootstrap');
 
-import Cookies from 'universal-cookie';
-window.cookies = new Cookies();
+require('./auth')
+
+require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
+require('jquery-timepicker/jquery.timepicker')
 
 window.requestErrorHandler = (error) => {
     if (error.response != undefined) {

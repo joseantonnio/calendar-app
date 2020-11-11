@@ -1,8 +1,10 @@
-require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
-require('jquery-timepicker/jquery.timepicker')
-
 $(function () {
     var current;
+    var user = cookies.get('calendar_app_user')[0];
+
+    console.log(user);
+
+    $('.user').text(user.name);
 
     $('.datepicker').datepicker({
         'format': 'm/d/yyyy',
@@ -17,7 +19,7 @@ $(function () {
         dropdown: true,
         scrollbar: true,
         zindex: 1100,
-        change: function(time) {
+        change: function (time) {
             var element = $(this), text;
             var timepicker = element.timepicker();
 
@@ -25,7 +27,7 @@ $(function () {
 
             if ($(this)[0].id == 'inputFrom') {
                 $('#inputTo').prop("disabled", false);
-                $('#inputTo').timepicker("option", "minTime", new Date(time.getTime() + 30*60000));
+                $('#inputTo').timepicker("option", "minTime", new Date(time.getTime() + 10 * 60000));
             }
         },
     });
@@ -36,6 +38,22 @@ $(function () {
 
     $(".event").on('click', (e) => {
         current = $(e.target).data('id');
+    });
+
+    $(".logout").on('click', (e) => {
+        axios.delete('/api/auth/logout', {
+            headers: {
+                'Authorization': 'Bearer ' + cookies.get('calendar_app_access_token')
+            }
+        })
+            .then(response => {
+                cookies.remove('calendar_app_access_token');
+                cookies.remove('calendar_app_user');
+                window.location.assign("/login");
+            })
+            .catch(error => {
+                requestErrorHandler(error);
+            });
     });
 
     $(document).on('click', '.edit-event', () => {

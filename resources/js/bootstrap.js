@@ -39,3 +39,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/**
+ * toastr is a Javascript library for non-blocking notifications. jQuery is
+ * required. The goal is to create a simple core library that can be customized
+ * and extended.
+ */
+
+window.toastr = require("toastr");

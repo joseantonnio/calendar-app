@@ -1,17 +1,19 @@
 @extends('layouts/app')
 
-@section('title', 'Events')
+@section('title')
+    Events
+@endsection
 
 
-    @push('styles')
-        <link type="text/css" rel="stylesheet" href="{{ asset('css/calendar.css') }}" />
-    @endpush
+@push('styles')
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/calendar.css') }}" />
+@endpush
 
 
-    @push('scripts')
-        <script src="{{ asset('js/calendar.js') }}"></script>
-        <script src="{{ asset('js/event.js') }}"></script>
-    @endpush
+@push('scripts')
+    <script src="{{ asset('js/calendar.js') }}"></script>
+    <script src="{{ asset('js/event.js') }}"></script>
+@endpush
 
 
 @section('content')
@@ -22,17 +24,16 @@
             <header>
                 <div class="row">
                     <div class="col-md-8 col-12 text-center order-md-2 mb-3">
-                        <h2 class="text-center">@{{header}}</h2>
+                        <h2 class="text-center" id="monthAndYear"></h2>
                     </div>
 
                     <div class="col-md-2 col-6 text-left p-0 order-md-1 mb-3">
-                        <button type="button" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i>
+                        <button type="button" class="btn btn-primary" id="previousMonth"><i class="mdi mdi-chevron-left"></i>
                             Previous</button>
                     </div>
 
                     <div class="col-md-2 col-6 text-right p-0 order-md-3 mb-3">
-                        <button type="button" class="btn btn-primary">Next <i
-                                class="mdi mdi-chevron-right"></i></button>
+                        <button type="button" class="btn btn-primary" id="nextMonth">Next <i class="mdi mdi-chevron-right"></i></button>
                     </div>
                 </div>
                 <div class="row d-none d-sm-flex p-1 bg-primary text-white">
@@ -45,8 +46,10 @@
                     <h5 class="col-sm m-0 p-1 text-center">Saturday</h5>
                 </div>
             </header>
-            <div class="row border border-top-0 calendar">
+            <div class="row border border-top-0 calendar" id="calendar">
+                <!-- -->
             </div>
+        </div>
     </main>
 
     <x-modal name="addEvent" title="Add new event" button="Save changes">

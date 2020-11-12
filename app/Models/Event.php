@@ -30,4 +30,12 @@ class Event extends Model
         'begin' => 'datetime',
         'end' => 'datetime',
     ];
+
+    /**
+     * Get the user that owns the event.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

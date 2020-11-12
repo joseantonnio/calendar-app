@@ -26,14 +26,14 @@ Mínimo:
 - [ ] Listagem de eventos
 
 Os atributos necessários para o evento são:
-- [ ] Descrição
-- [ ] Hora de início
-- [ ] Hora de término
+- [x] Descrição
+- [x] Hora de início
+- [x] Hora de término
 
 Obrigatório:
 - [ ] Não deixar sobrescrever eventos e caso ocorra, emitir um alerta para o usuário
 - [x] Suporte a vários usuários
-- [ ] Eventos ligados ao usuário que os criou
+- [x] Eventos ligados ao usuário que os criou
 - [ ] Frontend renderizado no lado do cliente
 
 Desejável:

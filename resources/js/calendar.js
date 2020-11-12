@@ -1,3 +1,5 @@
+import Mustache from 'mustache';
+
 $(function () {
     /**
      * Calendar
@@ -9,48 +11,14 @@ $(function () {
         selectMonth = $('#jumpMonth'),
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        monthAndYear = $('#monthAndYear');
+        monthAndYear = $('#monthAndYear'),
+        dayTemplate = document.getElementById('template').innerHTML;
 
     render(currentMonth, currentYear);
 
     /**
      * Functions
      */
-    function createDay(date, weekday, off = false) {
-        let day = document.createElement('div');
-
-        if (off) {
-            day.className = 'day col-sm p-2 text-truncate d-none d-sm-inline-block bg-light text-muted';
-        } else {
-            day.className = 'day col-sm p-2 text-truncate';
-        }
-
-        let dayContent = document.createElement('h5');
-        dayContent.className = 'row align-items-center';
-
-        let dayNumber = document.createElement('span');
-        dayNumber.className = 'date col-1';
-        dayNumber.appendChild(document.createTextNode(date));
-        dayContent.appendChild(dayNumber);
-
-        let dayText = document.createElement('small');
-        dayText.className = 'col d-sm-none text-center text-muted';
-        dayText.appendChild(document.createTextNode(weekday));
-        dayContent.appendChild(dayText);
-
-        let daySpacing = document.createElement('span');
-        daySpacing.className = 'col-1';
-        dayContent.appendChild(daySpacing);
-
-        let events = document.createElement('p');
-        events.className = 'd-sm-none text-center';
-        events.appendChild(document.createTextNode('No events'));
-
-        day.appendChild(dayContent);
-        day.appendChild(events);
-        return day;
-    }
-
     function render(month, year) {
         // Date Calc
         var date = 1;
@@ -72,36 +40,35 @@ $(function () {
             for (let j = 0; j < 7; j++) {
                 // Is last month
                 if (i === 0 && j < firstDay) {
-                    let day = createDay(lastMonthFirst, '', true);
+                    let day = Mustache.render(dayTemplate, {day: lastMonthFirst, off: true});
                     calendar.append(day);
                     lastMonthFirst++;
                 // Is next month
                 } else if (date > daysInMonth) {
                     let newMonthDate = date % daysInMonth;
-                    let day = createDay(newMonthDate, days[j], true);
+                    let day = Mustache.render(dayTemplate, {day: newMonthDate, off: true});
                     calendar.append(day);
                     date++;
                     if (j > 5) i = 6;
                 // Is current month
                 } else {
-                    let day = createDay(date, days[j]);
+                    let active = false;
 
                     if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                        day.classList.add('active');
+                        active = true;
                     }
 
+                    let day = Mustache.render(dayTemplate, {day: date, weekday: days[j], active: active});
                     calendar.append(day);
                     date++;
                 }
             }
 
-            // Draw line break
-            let row = document.createElement('div');
-            row.classList.add('w-100');
-            calendar.append(row);
-
             // Month ended?
             if (date > daysInMonth) break;
+
+            // Draw line break
+            calendar.append('<div class="w-100"></div>');
         }
     }
 
@@ -129,6 +96,6 @@ $(function () {
     });
 
     $('[data-toggle="popover"]').popover({
-        template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div><p class="m-0 p-2 border-top"><a href="#" class="edit-event"><i class="mdi mdi-pencil"></i> Edit</a><a href="#" class="float-right devare-event"><i class="mdi mdi-devare"></i> Devare</a></p></div>'
+        template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div><p class="m-0 p-2 border-top"><a href="#" class="edit-event"><i class="mdi mdi-pencil"></i> Edit</a><a href="#" class="float-right delete-event"><i class="mdi mdi-delete"></i> Delete</a></p></div>'
     });
 });

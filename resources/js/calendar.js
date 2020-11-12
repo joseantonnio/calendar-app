@@ -101,7 +101,7 @@ $(function () {
             calendar.append(row);
 
             // Month ended?
-            if (date >= daysInMonth) break;
+            if (date > daysInMonth) break;
         }
     }
 

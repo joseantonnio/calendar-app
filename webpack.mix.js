@@ -18,4 +18,5 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/login.js', 'public/js')
     .sass('resources/sass/login.scss', 'public/css')
     .js('resources/js/register.js', 'public/js')
+    .js('resources/js/nav.js', 'public/js')
     .sourceMaps();

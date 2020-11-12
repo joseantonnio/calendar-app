@@ -22,6 +22,7 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['Accept'] = 'application/json';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -39,3 +40,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/**
+ * toastr is a Javascript library for non-blocking notifications. jQuery is
+ * required. The goal is to create a simple core library that can be customized
+ * and extended.
+ */
+
+window.toastr = require("toastr");
+
+/**
+ * Universal cookies for JavaScript
+ */
+
+import Cookies from 'universal-cookie';
+window.cookies = new Cookies();

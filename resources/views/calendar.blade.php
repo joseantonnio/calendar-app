@@ -1,6 +1,6 @@
-@extends('app')
+@extends('layouts/app')
 
-@section('title', 'November 2020')
+@section('title', 'Events')
 
 
     @push('styles')

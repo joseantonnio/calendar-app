@@ -12,11 +12,15 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('login') }}">Log In</a>
+                <a class="nav-link user" href="#name"></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('register') }}">Sign Up</a>
+                <a class="nav-link logout" href="#logout">Sign Out</a>
             </li>
         </ul>
     </div>
 </nav>
+
+@push('scripts')
+    <script src="{{ asset('js/nav.js') }}"></script>
+@endpush

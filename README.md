@@ -15,6 +15,33 @@
 
 A simple and modern events calendar.
 
+### The Challenge
+
+Mínimo:
+- [x] Cadastro de usuário
+- [x] Login para acesso ao sistema
+- [ ] Adição de eventos
+- [ ] Edição de eventos
+- [ ] Remoção de eventos
+- [ ] Listagem de eventos
+
+Os atributos necessários para o evento são:
+- [ ] Descrição
+- [ ] Hora de início
+- [ ] Hora de término
+
+Obrigatório:
+- [ ] Não deixar sobrescrever eventos e caso ocorra, emitir um alerta para o usuário
+- [x] Suporte a vários usuários
+- [ ] Eventos ligados ao usuário que os criou
+- [ ] Frontend renderizado no lado do cliente
+
+Desejável:
+- [ ] Eventos com duração de mais de um dia
+- [ ] Caso haja suporte a vários usuários, também poderá ser implementado o convite a outros usuários para eventos, ou seja, o evento aparecerá no calendário do usuário convidado e o usuário convidado poderá responder se poderá participar ou não (RSVP)
+- [X] Responsividade, assim como o uso de Bootstrap ou outro framework CSS
+- [ ] Alguma funcionalidade diferente que você pensar
+
 ## Installation
 
 You'll need [Docker CE](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on your computer in order to run this application.

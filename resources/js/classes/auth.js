@@ -55,18 +55,18 @@ export default class Auth {
     }
 
     doRegister(name, email, password, password_confirmation) {
-        return axios.post('/api/users', {
+        axios.post('/api/users', {
             name: name,
             email: email,
             password: password,
             password_confirmation: password_confirmation,
         })
         .then(() => {
-            return true;
+            setFlash("You have been successfully registered!", "Success", "success");
+            window.location.assign("/login");
         })
         .catch(response => {
             error(response);
-            return false;
         });
     }
 

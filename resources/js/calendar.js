@@ -19,7 +19,7 @@ $(function () {
         dayTemplate = document.getElementById('template').innerHTML;
 
     /**
-     * Render
+     * Calendar Render
      */
     $('.datetimepicker').datetimepicker({
         step: 10,
@@ -39,7 +39,7 @@ $(function () {
     render(currentMonth, currentYear);
 
     /**
-     * Functions
+     * Calendar Functions
      */
     function render(month, year) {
         // Check year
@@ -62,7 +62,7 @@ $(function () {
 
         // Weeks
         for (let i = 0; i < 6; i++) {
-            // Days
+            // Days of the week
             for (let j = 0; j < 7; j++) {
                 // Is last month
                 if (i === 0 && j < firstDay) {
@@ -99,17 +99,35 @@ $(function () {
     }
 
     /**
-     * Events
+     * Calendar event handlers
      */
     $('#nextMonth').on('click', () => {
         currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
         currentMonth = (currentMonth + 1) % 12;
+
+        if (currentYear >= maxYear && currentMonth == 11) {
+            $('#nextMonth').prop('disabled', true);
+        }
+
+        if (currentYear >= minYear && currentMonth > 0) {
+            $('#previousMonth').prop('disabled', false);
+        }
+
         render(currentMonth, currentYear);
     });
 
     $('#previousMonth').on('click', () => {
         currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
         currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+
+        if (currentYear <= minYear && currentMonth == 0) {
+            $('#previousMonth').prop('disabled', true);
+        }
+
+        if (currentYear <= maxYear && currentMonth < 11) {
+            $('#nextMonth').prop('disabled', false);
+        }
+
         render(currentMonth, currentYear);
     });
 
@@ -117,6 +135,19 @@ $(function () {
         currentYear = parseInt(selectYear.val());
         currentMonth = parseInt(selectMonth.val());
         $('#jumpCalendar').modal('hide');
+
+        if (currentYear <= minYear && currentMonth == 0) {
+            $('#previousMonth').prop('disabled', true);
+        } else {
+            $('#previousMonth').prop('disabled', false);
+        }
+
+        if (currentYear >= maxYear && currentMonth == 11) {
+            $('#nextMonth').prop('disabled', true);
+        } else {
+            $('#nextMonth').prop('disabled', false);
+        }
+
         render(currentMonth, currentYear);
     });
 
@@ -150,6 +181,9 @@ $(function () {
         }
     });
 
+    /**
+     * Events
+     */
     $(".event").on('click', (e) => {
         current = $(e.target).data('id');
     });

@@ -1,12 +1,15 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-@import '~@mdi/font/scss/materialdesignicons';
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+@import "~@mdi/font/scss/materialdesignicons";
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 // toastr
 @import "toastr";
+
+// jquery-datetimepicker
+@import "jquery-datetimepicker/jquery.datetimepicker";

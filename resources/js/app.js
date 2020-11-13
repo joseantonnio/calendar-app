@@ -1,5 +1,7 @@
 require('./bootstrap');
 
+import 'jquery-datetimepicker';
+
 import Auth from './classes/auth';
 window.auth = new Auth();
 

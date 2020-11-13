@@ -24,7 +24,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.8.55",
-        "bootstrap-datetimepicker-npm": "^4.17.37-npm",
+        "jquery-datetimepicker": "^2.5.21",
         "mustache": "^4.0.1",
         "toastr": "^2.1.4",
         "universal-cookie": "^4.0.4"

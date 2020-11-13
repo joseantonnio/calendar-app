@@ -20,6 +20,7 @@ export default class Event {
         })
         .then((response) => {
             success(response);
+            $('#addEvent').modal('hide')
         })
         .catch(response => {
             error(response);

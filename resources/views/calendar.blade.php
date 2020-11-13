@@ -50,7 +50,7 @@
             </div>
 
             <script id="template" type="x-tmpl-mustache">
-                <div class="day col-sm p-2 text-truncate @{{#off}} d-none d-sm-inline-block bg-light text-muted @{{/off}} @{{#active}} active @{{/active}}">
+                <div class="day col-sm p-2 text-truncate@{{#off}} d-none d-sm-inline-block bg-light text-muted@{{/off}}@{{#active}} active@{{/active}}">
                     <h5 class="row align-items-center">
                         <span class="date col-1">@{{ day }}</span>
                         <small class="col d-sm-none text-center text-muted">@{{ weekday }}</small>

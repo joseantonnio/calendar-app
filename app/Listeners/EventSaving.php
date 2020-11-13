@@ -16,10 +16,20 @@ class EventSaving
     public function handle(EventSavingEvent $event)
     {
         $count = Event::where('user_id', $event->event->user_id)
-            ->whereRaw('begin > ? AND begin < ?', [$event->event->begin, $event->event->end])
-            ->orWhereRaw('end > ? AND end < ?', [$event->event->begin, $event->event->end])
+            ->where(function ($query) use ($event) {
+                $query->where(function ($query) use ($event) {
+                    $query->whereRaw('begin > ? and begin < ?', [$event->event->begin, $event->event->end]);
+                    $query->orWhereRaw('end > ? and end < ?', [$event->event->begin, $event->event->end]);
+                });
+                $query->orWhere(function ($query) use ($event) {
+                    $query->where('begin', $event->event->begin);
+                    $query->where('end', $event->event->end);
+                });
+            })
             ->count();
 
-        return ($count < 1);
+        if ($count > 0) {
+            throw new \Exception('The current event is overlapping an existing one!');
+        }
     }
 }

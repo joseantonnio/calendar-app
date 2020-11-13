@@ -1,18 +1,40 @@
 import Mustache from 'mustache';
+import Event from './classes/event';
 
 $(function () {
     /**
      * Calendar
      */
-    var today = new Date(),
+    var current,
+        today = new Date(),
         currentMonth = today.getMonth(),
         currentYear = today.getFullYear(),
         selectYear = $('#jumpYear'),
         selectMonth = $('#jumpMonth'),
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        minYear = 2000,
+        maxYear = 2099,
         monthAndYear = $('#monthAndYear'),
         dayTemplate = document.getElementById('template').innerHTML;
+
+    /**
+     * Render
+     */
+    $('.datetimepicker').datetimepicker({
+        step: 10,
+        minDate: minYear + '/01/01',
+        maxDate: maxYear + '/12/31',
+        mask: true,
+    });
+
+    for (let i = minYear; i <= maxYear; i++) {
+        $('#jumpYear').append(new Option(i, i));
+    }
+
+    for (let i = 0; i < months.length; i++) {
+        $('#jumpMonth').append(new Option(months[i], i));
+    }
 
     render(currentMonth, currentYear);
 
@@ -20,7 +42,11 @@ $(function () {
      * Functions
      */
     function render(month, year) {
-        // Date Calc
+        // Check year
+        if (year < minYear) year = minYear;
+        if (year > maxYear) year = maxYear;
+
+        // Date calc
         var date = 1;
         var firstDay = (new Date(year, month)).getDay();
         var daysInMonth = 32 - new Date(year, month, 32).getDate();
@@ -75,7 +101,6 @@ $(function () {
     /**
      * Events
      */
-
     $('#nextMonth').on('click', () => {
         currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
         currentMonth = (currentMonth + 1) % 12;
@@ -93,6 +118,76 @@ $(function () {
         currentMonth = parseInt(selectMonth.val());
         $('#jumpCalendar').modal('hide');
         render(currentMonth, currentYear);
+    });
+
+    $('#addEventSend').on('click', () => {
+        let event = new Event({
+            title: $('#inputTitle').val(),
+            description: $('#inputDescription').val(),
+            begin: $('#inputFrom').val(),
+            end: $('#inputTo').val(),
+            token: auth.token,
+        });
+
+        if (event.title.length < 3) {
+            toastr.error('Your event title is too small...');
+            $('#inputTitle').addClass('is-invalid');
+        } else if (event.description.length < 3) {
+            toastr.error('Your event description is too small...');
+            $('#inputDescription').addClass('is-invalid');
+        } else if (!(event.begin instanceof Date) || isNaN(event.begin)) {
+            toastr.error('You have to select a valid begin date!');
+            $('#inputFrom').addClass('is-invalid');
+        } else if (!(event.end instanceof Date) || isNaN(event.end)) {
+            toastr.error('You have to select a valid end date!');
+            $('#inputTo').addClass('is-invalid');
+        } else if (event.begin > event.end) {
+            toastr.error('The begin date should be before then the end date!');
+            $('#inputFrom').addClass('is-invalid');
+            $('#inputTo').addClass('is-invalid');
+        } else {
+            event.save();
+        }
+    });
+
+    $(".event").on('click', (e) => {
+        current = $(e.target).data('id');
+    });
+
+    $(".event, .event span").on('mouseover', (e) => {
+        if ($(e.target).is('span')) {
+            var id = $(e.target).parent().data('id');
+        } else {
+            var id = $(e.target).data('id');
+        }
+        $('.event').each((i, e) => {
+            if ($(e).data('id') == id) {
+                $(e).attr('style', 'background-color: #3f9ae5 !important;');
+            }
+        });
+    });
+
+    $(".event, .event span").on('mouseout', (e) => {
+        if ($(e.target).is('span')) {
+            var id = $(e.target).parent().data('id');
+        } else {
+            var id = $(e.target).data('id');
+        }
+        $('.event').each((i, e) => {
+            if ($(e).data('id') == id) {
+                $(e).attr('style', '');
+            }
+        });
+    });
+
+    $(document).on('click', '.edit-event', () => {
+        console.log("Edit event " + current);
+        current = null;
+    });
+
+    $(document).on('click', '.delete-event', () => {
+        console.log("Delete event " + current);
+        current = null;
     });
 
     $('[data-toggle="popover"]').popover({

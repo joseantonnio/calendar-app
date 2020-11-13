@@ -34,7 +34,7 @@ export default class Auth {
             window.location.assign("/");
         })
         .catch(response => {
-            this.error(response);
+            error(response);
         });
     }
 
@@ -50,7 +50,7 @@ export default class Auth {
             window.location.assign("/login");
         })
         .catch(response => {
-            this.error(response);
+            error(response);
         });
     }
 
@@ -65,21 +65,16 @@ export default class Auth {
             return true;
         })
         .catch(response => {
-            this.error(response);
+            error(response);
             return false;
         });
     }
 
-    error(request) {
-        if (request.response != undefined) {
-            toastr.error(request.response.data[Object.keys(request.response.data)[0]][0], "Something went wrong");
-        } else {
-            toastr.error("Something went wrong...", "Ooops!");
-            console.error(request);
-        }
-    }
-
     get user() {
         return cookies.get('calendar_app_user');
+    }
+
+    get token() {
+        return cookies.get('calendar_app_access_token');
     }
 }

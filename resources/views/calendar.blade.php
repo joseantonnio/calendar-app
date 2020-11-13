@@ -49,16 +49,30 @@
                 <!-- -->
             </div>
 
-            <script id="template" type="x-tmpl-mustache">
-                <div class="day col-sm p-2 text-truncate@{{#off}} d-none d-sm-inline-block bg-light text-muted@{{/off}}@{{#active}} active@{{/active}}">
-                    <h5 class="row align-items-center">
-                        <span class="date col-1">@{{ day }}</span>
-                        <small class="col d-sm-none text-center text-muted">@{{ weekday }}</small>
-                        <span class="col-1"></span>
-                    </h5>
-                    <p class="d-sm-none">No events</p>
-                </div>
-            </script>
+            @verbatim
+                <script id="template-day" type="x-tmpl-mustache">
+                    <div class="day col-sm p-2 text-truncate{{#off}} d-none d-sm-inline-block bg-light text-muted{{/off}}{{#active}} active{{/active}}">
+                        <h5 class="row align-items-center">
+                            <span class="date col-1">{{day}}</span>
+                            <small class="col d-sm-none text-center text-muted">{{weekday}}</small>
+                            <span class="col-1"></span>
+                        </h5>
+                        {{{events}}}
+                    </div>
+                </script>
+
+                <script id="template-event" type="x-tmpl-mustache">
+                    <a class="event d-block p-1 pl-2 pr-2 mb-1 small bg-info text-white{{#begin}} event-begin{{/#begin}}{{#mid}} event-middle{{/#mid}}{{#end}} event-end{{/#end}}"
+                        title="{{title}}" data-container="body" data-toggle="popover" data-placement="bottom"
+                        data-html="true" data-id="1" data-trigger="focus"
+                        tabindex="0"
+                        data-content="<p>{{content}}</p><p><strong>Begin:</strong> {{begin}}<br><strong>End:</strong> {{end}}</p>">
+                        <span class="d-block text-center text-truncate">
+                            {{title}}
+                        </span>
+                    </a>
+                </script>
+            @endverbatim
         </div>
     </main>
 

@@ -1,8 +1,5 @@
 require('./bootstrap');
 
-require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
-require('jquery-timepicker/jquery.timepicker')
-
 import Auth from './classes/auth';
 window.auth = new Auth();
 

@@ -4,10 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\EventSaving;
 
 class Event extends Model
 {
     use HasFactory;
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'saving' => EventSaving::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +29,7 @@ class Event extends Model
         'description',
         'begin',
         'end',
+        'user_id',
     ];
 
     /**

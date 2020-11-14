@@ -22,8 +22,8 @@ Mínimo:
 - [x] Login para acesso ao sistema
 - [x] Adição de eventos
 - [ ] Edição de eventos
-- [ ] Remoção de eventos
-- [ ] Listagem de eventos
+- [x] Remoção de eventos
+- [x] Listagem de eventos
 
 Os atributos necessários para o evento são:
 - [x] Descrição

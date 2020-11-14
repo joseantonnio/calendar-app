@@ -16,6 +16,7 @@ class EventSaving
     public function handle(EventSavingEvent $event)
     {
         $count = Event::where('user_id', $event->event->user_id)
+            ->where('id', '<>', $event->event->id)
             ->where(function ($query) use ($event) {
                 $query->where(function ($query) use ($event) {
                     $query->whereRaw('begin > ? and begin < ?', [$event->event->begin, $event->event->end]);
@@ -26,6 +27,7 @@ class EventSaving
                     $query->where('end', $event->event->end);
                 });
             })
+            ->groupBy('id')
             ->count();
 
         if ($count > 0) {

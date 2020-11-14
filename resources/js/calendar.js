@@ -257,8 +257,8 @@ $(function () {
         let event = {
             title: $('#inputTitle').val(),
             description: $('#inputDescription').val(),
-            begin: new Date($('#inputFrom').val()),
-            end: new Date($('#inputTo').val()),
+            begin: $('#inputFrom').val(),
+            end: $('#inputTo').val(),
         };
 
         if (event.title.length < 3) {
@@ -267,10 +267,10 @@ $(function () {
         } else if (event.description.length < 3) {
             toastr.error('Your event description is too small...');
             $('#inputDescription').addClass('is-invalid');
-        } else if (!(event.begin instanceof Date) || isNaN(event.begin)) {
+        } else if (isNaN(new Date(event.begin))) {
             toastr.error('You have to select a valid begin date!');
             $('#inputFrom').addClass('is-invalid');
-        } else if (!(event.end instanceof Date) || isNaN(event.end)) {
+        } else if (isNaN(new Date(event.end))) {
             toastr.error('You have to select a valid end date!');
             $('#inputTo').addClass('is-invalid');
         } else if (event.begin > event.end) {
@@ -287,6 +287,10 @@ $(function () {
                 success(response);
                 $('#addEvent').modal('hide');
                 render(currentMonth, currentYear);
+                $('#inputTitle').val('');
+                $('#inputDescription').val('');
+                $('#inputFrom').val('');
+                $('#inputTo').val('');
             })
             .catch(response => {
                 error(response);
@@ -348,8 +352,8 @@ $(function () {
         let event = {
             title: $('#editTitle').val(),
             description: $('#editDescription').val(),
-            begin: new Date($('#editFrom').val()),
-            end: new Date($('#editTo').val()),
+            begin: $('#editFrom').val(),
+            end: $('#editTo').val(),
         };
 
         if (event.title.length < 3) {
@@ -358,10 +362,10 @@ $(function () {
         } else if (event.description.length < 3) {
             toastr.error('Your event description is too small...');
             $('#editDescription').addClass('is-invalid');
-        } else if (!(event.begin instanceof Date) || isNaN(event.begin)) {
+        } else if (isNaN(new Date(event.begin))) {
             toastr.error('You have to select a valid begin date!');
             $('#editFrom').addClass('is-invalid');
-        } else if (!(event.end instanceof Date) || isNaN(event.end)) {
+        } else if (isNaN(new Date(event.end))) {
             toastr.error('You have to select a valid end date!');
             $('#editTo').addClass('is-invalid');
         } else if (event.begin > event.end) {
@@ -378,12 +382,15 @@ $(function () {
                 success(response);
                 $('#updateEvent').modal('hide');
                 render(currentMonth, currentYear);
+                $('#editTitle').val('');
+                $('#editDescription').val('');
+                $('#editFrom').val('');
+                $('#editTo').val('');
+                current = null;
             })
             .catch(response => {
                 error(response);
             });
-
-            current = null;
         }
     });
 

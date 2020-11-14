@@ -97,25 +97,28 @@ class EventController extends Controller
     public function filter($month, $year)
     {
         $events = Event::select(['id', 'title', 'description', 'begin', 'end'])
+            ->where('user_id', auth('api')->user()->id)
             ->where(function ($query) use ($year, $month) {
-                $query->whereMonth('begin', '<=', $month);
-                $query->whereYear('begin', $year);
-            })
-            ->where(function ($query) use ($year, $month) {
-                $query->whereMonth('end', '>=', $month);
-                $query->whereYear('end', $year);
-            })
-            ->orWhere(function ($query) use ($year, $month) {
-                $query->whereMonth('end', '=', $month);
-                $query->whereYear('end', $year);
-            })
-            ->orWhere(function ($query) use ($year, $month) {
-                $query->whereMonth('begin', '=', $month);
-                $query->whereYear('begin', $year);
-            })
-            ->orWhere(function ($query) use ($year, $month) {
-                $query->where('begin', '<=', "$year-$month-01");
-                $query->where('end', '>=', "$year-$month-01");
+                $query->where(function ($query) use ($year, $month) {
+                    $query->whereMonth('begin', '<=', $month);
+                    $query->whereYear('begin', $year);
+                });
+                $query->where(function ($query) use ($year, $month) {
+                    $query->whereMonth('end', '>=', $month);
+                    $query->whereYear('end', $year);
+                });
+                $query->orWhere(function ($query) use ($year, $month) {
+                    $query->whereMonth('end', '=', $month);
+                    $query->whereYear('end', $year);
+                });
+                $query->orWhere(function ($query) use ($year, $month) {
+                    $query->whereMonth('begin', '=', $month);
+                    $query->whereYear('begin', $year);
+                });
+                $query->orWhere(function ($query) use ($year, $month) {
+                    $query->where('begin', '<=', "$year-$month-01");
+                    $query->where('end', '>=', "$year-$month-01");
+                });
             })
             ->orderBy('begin')
             ->get();

@@ -21,7 +21,7 @@ Mínimo:
 - [x] Cadastro de usuário
 - [x] Login para acesso ao sistema
 - [x] Adição de eventos
-- [ ] Edição de eventos
+- [x] Edição de eventos
 - [x] Remoção de eventos
 - [x] Listagem de eventos
 

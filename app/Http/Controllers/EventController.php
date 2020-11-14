@@ -47,10 +47,10 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'description' => 'required',
-            'begin' => 'required',
-            'end' => 'required',
+            'title' => 'required|min:3',
+            'description' => 'required|min:3',
+            'begin' => 'required|date',
+            'end' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -145,7 +145,40 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:3',
+            'description' => 'required|min:3',
+            'begin' => 'required|date',
+            'end' => 'required|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $event = Event::find($id);
+
+        if (auth('api')->user()->id != $event->user_id) {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $event->fill(array_merge(
+            $validator->validated(),
+            ['user_id' => auth('api')->user()->id]
+        ));
+
+        if ($event->save()) {
+            return response()->json([
+                'message' => 'Event successfully updated',
+                'event' => $event
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'An error has ocurred',
+        ], 400);
     }
 
     /**

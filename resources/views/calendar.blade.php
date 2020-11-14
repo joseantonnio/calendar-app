@@ -111,6 +111,41 @@
         </form>
     </x-modal>
 
+    <x-modal name="updateEvent" title="Change event" button="Save changes">
+        <form>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="editTitle">Title</label>
+                        <input type="text" class="form-control datepicker" id="editTitle">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="editDescription">Description</label>
+                        <textarea class="form-control" id="editDescription" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="editFrom">Begin</label>
+                        <input type="text" class="form-control datetimepicker" id="editFrom" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="editTo">End</label>
+                        <input type="text" class="form-control datetimepicker" id="editTo" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </x-modal>
+
     <x-modal name="jumpCalendar" title="Jump to:" button="Go">
         <form>
             <div class="row">

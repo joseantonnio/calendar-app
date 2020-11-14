@@ -259,7 +259,6 @@ $(function () {
             description: $('#inputDescription').val(),
             begin: new Date($('#inputFrom').val()),
             end: new Date($('#inputTo').val()),
-            token: auth.token,
         };
 
         if (event.title.length < 3) {
@@ -333,8 +332,59 @@ $(function () {
     });
 
     $('body').on('click', '.edit-event', () => {
-        console.log("Edit event " + current);
-        current = null;
+        let event = events.filter(function(event) {
+            return event.id == current;
+        })[0];
+
+        $('#editTitle').val(event.title)
+        $('#editDescription').val(event.description)
+        $('#editFrom').val($.format.date(event.begin, 'yyyy/MM/dd HH:mm')),
+        $('#editTo').val($.format.date(event.end, 'yyyy/MM/dd HH:mm'))
+
+        $('#updateEvent').modal('show');
+    });
+
+    $('#updateEventSend').on('click', () => {
+        let event = {
+            title: $('#editTitle').val(),
+            description: $('#editDescription').val(),
+            begin: new Date($('#editFrom').val()),
+            end: new Date($('#editTo').val()),
+        };
+
+        if (event.title.length < 3) {
+            toastr.error('Your event title is too small...');
+            $('#editTitle').addClass('is-invalid');
+        } else if (event.description.length < 3) {
+            toastr.error('Your event description is too small...');
+            $('#editDescription').addClass('is-invalid');
+        } else if (!(event.begin instanceof Date) || isNaN(event.begin)) {
+            toastr.error('You have to select a valid begin date!');
+            $('#editFrom').addClass('is-invalid');
+        } else if (!(event.end instanceof Date) || isNaN(event.end)) {
+            toastr.error('You have to select a valid end date!');
+            $('#editTo').addClass('is-invalid');
+        } else if (event.begin > event.end) {
+            toastr.error('The begin date should be before then the end date!');
+            $('#editFrom').addClass('is-invalid');
+            $('#editTo').addClass('is-invalid');
+        } else {
+            axios.put(`/api/events/${current}`, event, {
+                headers: {
+                    'Authorization': 'Bearer ' + auth.token
+                }
+            })
+            .then((response) => {
+                success(response);
+                $('#updateEvent').modal('hide');
+                render(currentMonth, currentYear);
+            })
+            .catch(response => {
+                error(response);
+            });
+
+            current = null;
+        }
     });
 
     $('body').on('click', '.delete-event', () => {
@@ -342,7 +392,6 @@ $(function () {
     });
 
     $('#deleteEventSend').on('click', () => {
-        $('#deleteEvent').modal('hide');
         axios.delete(`/api/events/${current}`, {
             headers: {
                 'Authorization': 'Bearer ' + auth.token
@@ -355,6 +404,9 @@ $(function () {
         .catch(response => {
             error(response);
         });
+
+        $('#deleteEvent').modal('hide');
+        current = null;
     });
 
     var popOverSettings = {

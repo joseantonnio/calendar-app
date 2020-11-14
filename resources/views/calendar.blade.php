@@ -125,4 +125,8 @@
             </div>
         </form>
     </x-modal>
+
+    <x-modal name="deleteEvent" title="Are you sure you want to delete this event?" button="Yes" cancel="No">
+        <p>This event will be deleted imediately. You can't undo this action.</p>
+    </x-modal>
 @endsection

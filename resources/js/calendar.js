@@ -338,8 +338,23 @@ $(function () {
     });
 
     $('body').on('click', '.delete-event', () => {
-        console.log("Delete event " + current);
-        current = null;
+        $('#deleteEvent').modal('show');
+    });
+
+    $('#deleteEventSend').on('click', () => {
+        $('#deleteEvent').modal('hide');
+        axios.delete(`/api/events/${current}`, {
+            headers: {
+                'Authorization': 'Bearer ' + auth.token
+            }
+        })
+        .then((response) => {
+            success(response);
+            render(currentMonth, currentYear);
+        })
+        .catch(response => {
+            error(response);
+        });
     });
 
     var popOverSettings = {

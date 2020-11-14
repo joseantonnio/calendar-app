@@ -156,6 +156,10 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Event::find($id)->delete()) {
+            return response()->json([
+                'message' => 'Event successfully deleted',
+            ], 200);
+        }
     }
 }

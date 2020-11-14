@@ -34,7 +34,7 @@ export default class Auth {
             window.location.assign("/");
         })
         .catch(response => {
-            this.error(response);
+            error(response);
         });
     }
 
@@ -50,36 +50,31 @@ export default class Auth {
             window.location.assign("/login");
         })
         .catch(response => {
-            this.error(response);
+            error(response);
         });
     }
 
     doRegister(name, email, password, password_confirmation) {
-        return axios.post('/api/users', {
+        axios.post('/api/users', {
             name: name,
             email: email,
             password: password,
             password_confirmation: password_confirmation,
         })
         .then(() => {
-            return true;
+            setFlash("You have been successfully registered!", "Success", "success");
+            window.location.assign("/login");
         })
         .catch(response => {
-            this.error(response);
-            return false;
+            error(response);
         });
-    }
-
-    error(request) {
-        if (request.response != undefined) {
-            toastr.error(request.response.data[Object.keys(request.response.data)[0]][0], "Something went wrong");
-        } else {
-            toastr.error("Something went wrong...", "Ooops!");
-            console.error(request);
-        }
     }
 
     get user() {
         return cookies.get('calendar_app_user');
+    }
+
+    get token() {
+        return cookies.get('calendar_app_access_token');
     }
 }

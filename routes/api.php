@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,9 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
     Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 });
 
+Route::get('events/{month}/{year}', [EventController::class, 'filter']);
+
 Route::resources([
     'users' => UserController::class,
+    'events' => EventController::class,
 ]);

@@ -11,10 +11,7 @@ $(function () {
         } else if ($('#inputPassword').val() != $('#inputConfirm').val()) {
             toastr.error("The password confirmation does not match.", "Wrong password");
         } else {
-            if (auth.doRegister($('#inputName').val(), $('#inputEmail').val(), $('#inputPassword').val(), $('#inputConfirm').val())) {
-                setFlash("You have been successfully registered!", "Success", "success");
-                window.location.assign("/login");
-            }
+            auth.doRegister($('#inputName').val(), $('#inputEmail').val(), $('#inputPassword').val(), $('#inputConfirm').val());
         }
     });
 });

@@ -28,6 +28,8 @@
 </head>
 
 <body>
+    <div class="loading" id="loader">Loading&#8230;</div>
+
     @yield('content')
 
     @stack('scripts')

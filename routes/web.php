@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('calendar');
 });
 
+Route::get('/calendar', function () {
+    return view('calendar-mockup');
+});
+
 Route::get('/login', function () {
     return view('login');
 });

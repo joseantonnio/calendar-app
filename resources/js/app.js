@@ -1,7 +1,6 @@
 require('./bootstrap');
 
-require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
-require('jquery-timepicker/jquery.timepicker')
+import 'jquery-datetimepicker';
 
 import Auth from './classes/auth';
 window.auth = new Auth();
@@ -14,7 +13,35 @@ window.setFlash = (message, title = null, type = "info") => {
     }));
 }
 
+window.error = (request) => {
+    if (request.response != undefined) {
+        if (request.response.data['message'] != undefined) {
+            toastr.error(request.response.data['message'], "Something went wrong");
+        } else {
+            toastr.error(request.response.data[Object.keys(request.response.data)[0]][0], "Something went wrong");
+        }
+    } else {
+        toastr.error("Something went wrong...", "Ooops!");
+        console.error(request);
+    }
+}
+
+window.success = (request) => {
+    if (request.data != undefined) {
+        if (request.data['message'] != undefined) {
+            toastr.success(request.data['message'], "Success");
+        }
+    } else {
+        toastr.success("Action completed successfully!", "Success");
+        console.log(request);
+    }
+}
+
 $(function () {
+    $('input, textarea, select').on('focus', (e) => {
+        $(e.target).removeClass('is-invalid');
+    });
+
     if (localStorage.getItem('flash')) {
         var flash = JSON.parse(localStorage.getItem('flash'));
         console.log(localStorage.getItem('flash'));

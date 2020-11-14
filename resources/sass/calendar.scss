@@ -2,19 +2,49 @@ main {
     padding: 5px;
 }
 
-.event {
-    cursor: pointer;
+a:hover {
+    text-decoration: none;
 }
 
-@media (max-width:575px) {
+.event {
+    cursor: pointer;
+    border-radius: 0.25rem;
+    margin: 0.25rem;
+}
+
+.event.event-begin {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    margin-right: -0.5rem !important;
+}
+
+.event.event-middle {
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    margin-right: -0.5rem !important;
+    margin-left: -0.5rem !important;
+}
+
+.event.event-end {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    margin-left: -0.5rem !important;
+}
+
+@media (max-width: 575px) {
     .display-4 {
         font-size: 1.5rem;
     }
+
     .day h5 {
-        background-color: #f8f9fa;
+        background-color: #f4f6f7;
         padding: 3px 5px 5px;
         margin: -8px -8px 8px -8px;
+        border-top: 1px solid #dee2e6 !important;
     }
+
     .date {
         padding-left: 4px;
     }
@@ -23,5 +53,15 @@ main {
 @media (min-width: 576px) {
     .day {
         height: 14.2857vw;
+        box-shadow: inset 1px 1px 0px #dee2e6;
+    }
+
+    .day.active {
+        background-color: #f4f6f7 !important;
+    }
+
+    .event.event-middle span,
+    .event.event-end span {
+        visibility: hidden;
     }
 }

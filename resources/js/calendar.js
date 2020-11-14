@@ -1,5 +1,5 @@
 import Mustache from 'mustache';
-import Event from './classes/event';
+import 'jquery-dateformat/dist/jquery-dateformat';
 
 $(function () {
     /**
@@ -16,7 +16,9 @@ $(function () {
         minYear = 2000,
         maxYear = 2099,
         monthAndYear = $('#monthAndYear'),
-        dayTemplate = document.getElementById('template').innerHTML;
+        dayTemplate = $('#template-day').html(),
+        eventTemplate = $('#template-event').html(),
+        events;
 
     /**
      * Calendar Render
@@ -42,6 +44,86 @@ $(function () {
      * Calendar Functions
      */
     function render(month, year) {
+        $('#loader').show();
+
+        axios.get(`/api/events/${month+1}/${year}`, {
+            headers: {
+                'Authorization': 'Bearer ' + auth.token
+            }
+        })
+        .then((response) => {
+            events = response.data.events;
+            events.map(event => {
+                event.begin = new Date(event.begin);
+                event.end = new Date(event.end);
+            })
+            renderCalendar(month, year);
+        })
+        .catch(response => {
+            error(response);
+        })
+        .then(() => {
+            $('#loader').hide();
+        });
+    }
+
+    function renderEvents(date, month, year) {
+        let dayEvents = '',
+            fullDate = new Date(year, month, date).setHours(0,0,0,0);
+
+        for (let i = 0; i < events.length; i++) {
+            let begin = new Date(events[i].begin).setHours(0,0,0,0),
+                end = new Date(events[i].end).setHours(0,0,0,0);
+            if (begin == fullDate && end == fullDate) {
+                dayEvents += Mustache.render(eventTemplate, {
+                    id: events[i].id,
+                    title: events[i].title,
+                    description: events[i].description,
+                    begin: $.format.date(events[i].begin, 'yyyy/MM/dd HH:mm'),
+                    end: $.format.date(events[i].end, 'yyyy/MM/dd HH:mm'),
+                });
+            } else {
+                if (begin == fullDate) {
+                    dayEvents += Mustache.render(eventTemplate, {
+                        class: 'event-begin',
+                        id: events[i].id,
+                        title: events[i].title,
+                        description: events[i].description,
+                        begin: $.format.date(events[i].begin, 'yyyy/MM/dd HH:mm'),
+                        end: $.format.date(events[i].end, 'yyyy/MM/dd HH:mm'),
+                    });
+                }
+                if (begin < fullDate && end > fullDate) {
+                    dayEvents += Mustache.render(eventTemplate, {
+                        class: 'event-middle',
+                        id: events[i].id,
+                        title: events[i].title,
+                        description: events[i].description,
+                        begin: $.format.date(events[i].begin, 'yyyy/MM/dd HH:mm'),
+                        end: $.format.date(events[i].end, 'yyyy/MM/dd HH:mm'),
+                    });
+                }
+                if (end == fullDate) {
+                    dayEvents += Mustache.render(eventTemplate, {
+                        class: 'event-end',
+                        id: events[i].id,
+                        title: events[i].title,
+                        description: events[i].description,
+                        begin: $.format.date(events[i].begin, 'yyyy/MM/dd HH:mm'),
+                        end: $.format.date(events[i].end, 'yyyy/MM/dd HH:mm'),
+                    });
+                }
+            }
+        }
+
+        if (dayEvents == '') {
+            return '<p class="d-sm-none">No events</p>';
+        }
+
+        return dayEvents;
+    }
+
+    function renderCalendar(month, year) {
         // Check year
         if (year < minYear) year = minYear;
         if (year > maxYear) year = maxYear;
@@ -66,26 +148,46 @@ $(function () {
             for (let j = 0; j < 7; j++) {
                 // Is last month
                 if (i === 0 && j < firstDay) {
-                    let day = Mustache.render(dayTemplate, {day: lastMonthFirst, off: true});
-                    calendar.append(day);
+                    let prevMonth = month - 1,
+                    prevMonthYear = year;
+
+                    if (prevMonth < 0) {
+                        prevMonth = 11;
+                        prevMonthYear = year - 1;
+                    }
+
+                    calendar.append(Mustache.render(dayTemplate, {
+                        day: lastMonthFirst,
+                        off: true,
+                        events: renderEvents(lastMonthFirst, prevMonth, prevMonthYear),
+                    }));
                     lastMonthFirst++;
                 // Is next month
                 } else if (date > daysInMonth) {
-                    let newMonthDate = date % daysInMonth;
-                    let day = Mustache.render(dayTemplate, {day: newMonthDate, off: true});
-                    calendar.append(day);
+                    let newMonthDate = date % daysInMonth,
+                        nextMonth = month + 1,
+                        nextMonthYear = year;
+
+                    if (nextMonth > 11) {
+                        nextMonth = 0;
+                        nextMonthYear = year + 1;
+                    }
+
+                    calendar.append(Mustache.render(dayTemplate, {
+                        day: newMonthDate,
+                        off: true,
+                        events: renderEvents(newMonthDate, nextMonth, nextMonthYear),
+                    }));
                     date++;
                     if (j > 5) i = 6;
                 // Is current month
                 } else {
-                    let active = false;
-
-                    if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                        active = true;
-                    }
-
-                    let day = Mustache.render(dayTemplate, {day: date, weekday: days[j], active: active});
-                    calendar.append(day);
+                    calendar.append(Mustache.render(dayTemplate, {
+                        day: date,
+                        weekday: days[j],
+                        active: date === today.getDate() && year === today.getFullYear() && month === today.getMonth(),
+                        events: renderEvents(date, month, year),
+                    }));
                     date++;
                 }
             }
@@ -152,13 +254,13 @@ $(function () {
     });
 
     $('#addEventSend').on('click', () => {
-        let event = new Event({
+        let event = {
             title: $('#inputTitle').val(),
             description: $('#inputDescription').val(),
-            begin: $('#inputFrom').val(),
-            end: $('#inputTo').val(),
+            begin: new Date($('#inputFrom').val()),
+            end: new Date($('#inputTo').val()),
             token: auth.token,
-        });
+        };
 
         if (event.title.length < 3) {
             toastr.error('Your event title is too small...');
@@ -177,18 +279,34 @@ $(function () {
             $('#inputFrom').addClass('is-invalid');
             $('#inputTo').addClass('is-invalid');
         } else {
-            event.save();
+            axios.post('/api/events', event, {
+                headers: {
+                    'Authorization': 'Bearer ' + auth.token
+                }
+            })
+            .then((response) => {
+                success(response);
+                $('#addEvent').modal('hide');
+                render(currentMonth, currentYear);
+            })
+            .catch(response => {
+                error(response);
+            });
         }
     });
 
     /**
      * Events
      */
-    $(".event").on('click', (e) => {
-        current = $(e.target).data('id');
+    $('body').on('click', ".event", (e) => {
+        if ($(e.target).is('span')) {
+            current = $(e.target).parent().data('id');
+        } else {
+            current = $(e.target).data('id');
+        }
     });
 
-    $(".event, .event span").on('mouseover', (e) => {
+    $('body').on('mouseover', ".event, .event span", (e) => {
         if ($(e.target).is('span')) {
             var id = $(e.target).parent().data('id');
         } else {
@@ -201,7 +319,7 @@ $(function () {
         });
     });
 
-    $(".event, .event span").on('mouseout', (e) => {
+    $('body').on('mouseout', ".event, .event span", (e) => {
         if ($(e.target).is('span')) {
             var id = $(e.target).parent().data('id');
         } else {
@@ -214,17 +332,28 @@ $(function () {
         });
     });
 
-    $(document).on('click', '.edit-event', () => {
+    $('body').on('click', '.edit-event', () => {
         console.log("Edit event " + current);
         current = null;
     });
 
-    $(document).on('click', '.delete-event', () => {
+    $('body').on('click', '.delete-event', () => {
         console.log("Delete event " + current);
         current = null;
     });
 
-    $('[data-toggle="popover"]').popover({
-        template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div><p class="m-0 p-2 border-top"><a href="#" class="edit-event"><i class="mdi mdi-pencil"></i> Edit</a><a href="#" class="float-right delete-event"><i class="mdi mdi-delete"></i> Delete</a></p></div>'
-    });
+    var popOverSettings = {
+        placement: 'bottom',
+        container: 'body',
+        html: true,
+        trigger: 'focus',
+        selector: '[data-toggle="popover"]',
+        template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div><p class="m-0 p-2 border-top"><a href="#" class="edit-event"><i class="mdi mdi-pencil"></i> Edit</a><a href="#" class="float-right delete-event"><i class="mdi mdi-delete"></i> Delete</a></p></div>',
+        content: function () {
+            return $('#popover-content').html();
+        }
+    }
+
+    $('body').popover(popOverSettings);
+
 });

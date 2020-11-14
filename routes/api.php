@@ -23,6 +23,8 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
     Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 });
 
+Route::get('events/{month}/{year}', [EventController::class, 'filter']);
+
 Route::resources([
     'users' => UserController::class,
     'events' => EventController::class,

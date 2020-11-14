@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.8.55",
+        "jquery-dateformat": "^1.0.4",
         "jquery-datetimepicker": "^2.5.21",
         "mustache": "^4.0.1",
         "toastr": "^2.1.4",

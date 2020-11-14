@@ -88,6 +88,44 @@ class EventController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param  integer  $month
+     * @param  integer  $year
+     * @return \Illuminate\Http\Response
+     */
+    public function filter($month, $year)
+    {
+        $events = Event::select(['id', 'title', 'description', 'begin', 'end'])
+            ->where(function ($query) use ($year, $month) {
+                $query->whereMonth('begin', '<=', $month);
+                $query->whereYear('begin', $year);
+            })
+            ->where(function ($query) use ($year, $month) {
+                $query->whereMonth('end', '>=', $month);
+                $query->whereYear('end', $year);
+            })
+            ->orWhere(function ($query) use ($year, $month) {
+                $query->whereMonth('end', '=', $month);
+                $query->whereYear('end', $year);
+            })
+            ->orWhere(function ($query) use ($year, $month) {
+                $query->whereMonth('begin', '=', $month);
+                $query->whereYear('begin', $year);
+            })
+            ->orWhere(function ($query) use ($year, $month) {
+                $query->where('begin', '<=', "$year-$month-01");
+                $query->where('end', '>=', "$year-$month-01");
+            })
+            ->orderBy('begin')
+            ->get();
+
+        return response()->json([
+            'events' => $events
+        ], 200);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
